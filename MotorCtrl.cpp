@@ -31,9 +31,33 @@ void MotorCtrl::begin()
     digitalWrite(M3_DIRECTION, HIGH);
 }
 
+void MotorCtrl::begin(int STSP_Pin, int DIR_PIN, int MPWM_Pin)
+{
+    this->_Call_Val = 1;
+
+    digitalWrite(STSP_Pin, HIGH);
+    digitalWrite(DIR_PIN, LOW);
+
+    while(1)
+    {
+        analogWrite(MPWM_Pin,500);
+
+        if(this->_Call_Val==0)
+        {
+            digitalWrite(STSP_Pin, LOW);
+            analogWrite(MPWM_Pin,0);
+            this->_realpos = 0;
+            break;
+        }
+    }
+
+    Serial.println("good");
+
+}
+
 double MotorCtrl::Cal_Real_Pos(double encoder_velue)
 {
-    this->_realpos = (encoder_velue)*(this->_ratio);
+    this->_realpos = -(encoder_velue)*(this->_ratio);
 
     return this->_realpos;
 }
@@ -43,11 +67,11 @@ void MotorCtrl::Go_Motor(int MPWM_PIN,int DIRECTION_PIN, double MPWM)
 
     if(MPWM <= 0)
     {
-      digitalWrite(DIRECTION_PIN, HIGH); //CCW
+      digitalWrite(DIRECTION_PIN, LOW); //CCW
     }
     else
     {
-      digitalWrite(DIRECTION_PIN, LOW); //CCW
+      digitalWrite(DIRECTION_PIN, HIGH); //CCW
     }
 
     analogWrite(MPWM_PIN,abs(MPWM));
@@ -69,4 +93,9 @@ double MotorCtrl::Cal_Go_Pos(float IN_Value)
 
       return Value;
     }
+}
+
+void MotorCtrl::Call_back()
+{
+    this->_Call_Val = 0;
 }

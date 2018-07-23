@@ -53,11 +53,11 @@
 #define M3_TIMESTEP 10
 
 /*
-photo_I/O Pin
+Photo_Interrupt_Pin
 */
-#define photo_io_1 40
-#define photo_io_2 42
-#define photo_io_3 44
+#define Photo_1 40
+#define Photo_2 42
+#define Photo_3 44
 
 double Set_3_Pos(double M1, double M2, double M3);
 void Motor_Pin_Set(void);

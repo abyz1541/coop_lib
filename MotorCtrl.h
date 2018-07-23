@@ -16,12 +16,17 @@ class MotorCtrl
     MotorCtrl();
     MotorCtrl(double ratio);
     void begin();
+    void begin(int STSP_Pin, int DIR_PIN, int MPWM_Pin);
     void Go_Motor(int MPWM_PIN,int DIRECTION_PIN, double MPWM);
+    void Call_back();
     double Cal_Real_Pos(double encoder_velue);
     double Cal_Go_Pos(float IN_Value);
 
+
   private:
     double _ratio, _realpos, _pos_state;
+
+    int _Call_Val;
     
 };
 
